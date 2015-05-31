@@ -3,6 +3,7 @@ package rangeguild;
 import java.util.concurrent.Callable;
 
 import org.powerbot.script.Condition;
+import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
 
@@ -27,6 +28,10 @@ public class Compete extends Task<ClientContext> {
 	
 	@Override
 	public void execute() {
+		
+		if(ctx.movement.distance(new Tile(2672, 3418)) > 4){
+			ctx.movement.step(new Tile(2672, 3418));
+		}
 
 		if(ctx.camera.pitch() > 0){
 			ctx.camera.pitch(0);
