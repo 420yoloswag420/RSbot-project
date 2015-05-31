@@ -29,8 +29,14 @@ public class Compete extends Task<ClientContext> {
 	@Override
 	public void execute() {
 		
-		if(ctx.movement.distance(new Tile(2672, 3418)) > 4){
-			ctx.movement.step(new Tile(2672, 3418));
+		if(ctx.movement.distance(new Tile(2672, 3418)) > 3){
+			Condition.wait(new Callable<Boolean>() {
+				@Override
+				public Boolean call() throws Exception {
+					ctx.movement.step(new Tile(2672, 3418));
+					return ctx.movement.distance(new Tile(2672, 3418)) < 5;
+				}
+			}, 10, 50);
 		}
 
 		if(ctx.camera.pitch() > 0){

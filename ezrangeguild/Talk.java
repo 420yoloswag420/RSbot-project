@@ -14,7 +14,7 @@ public class Talk extends Task<ClientContext> {
 	int bronzearrow = 882;
 	int instructor = 6070;
 	
-	Mouse mouse = new Mouse(ctx);
+	Mouse<ClientContext> mouse = new Mouse<ClientContext>(ctx);
 	
 	public Talk(ClientContext ctx) {
 		super(ctx);
@@ -31,7 +31,7 @@ public class Talk extends Task<ClientContext> {
 	public void execute() {
 		
 		Npc npc = ctx.npcs.select().id(instructor).nearest().poll();
-		
+
 		if(!npc.interacting().equals(ctx.players.local())){
 			Condition.sleep(1000);
 			npc.interact("Talk-to");
@@ -45,20 +45,21 @@ public class Talk extends Task<ClientContext> {
 			}
 		}, 10, 50);
 		
-		Condition.sleep(2000);
+		Condition.wait(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				ctx.widgets.widget(219).component(0).component(1).interact("Continue");
+				return ctx.widgets.widget(219).component(0).component(1).visible();
+			}
+		}, 10, 50);
 		
-		mouse.click(Random.nextInt(194, 332), Random.nextInt(388, 400), true);
-		
-		Condition.sleep(2000);
-		
-		mouse.click(Random.nextInt(143, 287), Random.nextInt(444, 455), true);
-		
-		Condition.sleep(2000);
-		
-		mouse.click(Random.nextInt(235, 378), Random.nextInt(444, 455), true);
-
-		
-
+		Condition.wait(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				ctx.widgets.widget(217).component(2).interact("Continue");
+				return ctx.widgets.widget(217).component(2).visible();
+			}
+		}, 10, 50);	
 	}
 
 	@Override
