@@ -32,10 +32,9 @@ public class Talk extends Task<ClientContext> {
 		
 		Npc npc = ctx.npcs.select().id(instructor).nearest().poll();
 
-		if(!npc.interacting().equals(ctx.players.local())){
-			Condition.sleep(1000);
+		if(ctx.inventory.select().id(bronzearrow).count() == 0 && ctx.inventory.select().id(ironarrow).count() == 0)
 			npc.interact("Talk-to");
-		}
+		
 		
 		Condition.wait(new Callable<Boolean>() {
 			@Override
@@ -59,7 +58,15 @@ public class Talk extends Task<ClientContext> {
 				ctx.widgets.widget(217).component(2).interact("Continue");
 				return ctx.widgets.widget(217).component(2).visible();
 			}
-		}, 10, 50);	
+		}, 10, 50);
+		
+		Condition.wait(new Callable<Boolean>() {
+			@Override
+			public Boolean call() throws Exception {
+				ctx.widgets.component(231, 2).interact("Continue");
+				return ctx.widgets.component(231, 2).visible();
+			}
+		}, 10, 50);
 	}
 
 	@Override
